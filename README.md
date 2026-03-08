@@ -1,242 +1,232 @@
-
 # HyWorld
 
 ![Status](https://img.shields.io/badge/status-early%20development-orange)
 ![Java](https://img.shields.io/badge/java-25-blue)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey)
-![License](https://img.shields.io/badge/license-TBD-yellow)
+![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
+![UI](https://img.shields.io/badge/ui-JavaFX-4b8bbe)
 
-**HyWorld** is a hybrid **desktop + web management platform for Hytale worlds and servers**.
+**HyWorld** is a desktop-first management tool for **Hytale dedicated server runtimes and instances**.
 
-It is designed to simplify world generation, server administration, and mod management while providing powerful tools for developers and server operators.
+It is built to make it easier to:
+- import official Hytale server runtimes
+- manage multiple thin instances from one shared runtime
+- start, stop, and monitor instances from an embedded console
+- handle authentication flows inside a cleaner admin workflow
+- grow into a modern server control center for local and remote administration
 
-HyWorld is part of the **Cardinal ecosystem**, a suite of tools and mods designed to expand Hytale server capabilities.
-
----
-
-# Overview
-
-HyWorld provides a unified environment to:
-
-- Create and manage Hytale worlds
-- Control servers locally or remotely
-- Integrate with mods and server tooling
-- Visualize worlds and terrain
-- Manage instances and multi-world servers
-
-The project is inspired by tools such as:
-
-- MultiMC / Prism Launcher
-- RuneLite plugin ecosystem
-- Modern server management panels
-
-But focused specifically on **Hytale server infrastructure and mod development**.
+> HyWorld is currently in **early development** and is focused on building a strong core before public release.
 
 ---
 
-# Architecture
+## Overview
 
-HyWorld uses a **hybrid client architecture** allowing both desktop and web control.
+HyWorld is designed around a simple idea:
 
-```mermaid
-flowchart TB
+- **Shared runtimes** hold the heavy official server files
+- **Thin instances** hold only per-server data like configs, logs, mods, and world data
+- The app manages those instances through a **desktop UI** with an embedded console and live status panels
 
-A[HyWorld Core API] --> B[Desktop Client - JavaFX]
-A --> C[Web Interface]
+This keeps disk usage lower, makes updates cleaner, and gives server admins a better workflow than juggling folders and batch files manually.
 
-B --> D[Local Server Control]
-C --> D
+---
 
-D --> E[Hytale Server]
-D --> F[World Files]
-D --> G[Mods]
+## Current Direction
+
+HyWorld is currently being built as a **desktop-first control center** for Hytale servers, with future room for a web/remote layer later.
+
+Current focus:
+- shared runtime import
+- thin instance management
+- embedded server process control
+- embedded instance console
+- auth helper workflow
+- live dashboard status
+- cleaner admin UX
+
+---
+
+## Core Architecture
+
+HyWorld currently uses a **shared runtime + thin instance** model.
+
+```text
+HyWorld/
+  runtimes/
+    <version>/
+      Server/
+      Assets.zip
+      runtime.json
+
+  instances/
+    <instance-id>/
+      config/
+      logs/
+      mods/
+      universe/
+      backups/
+      instance.json
 ```
 
-The **HyWorld Core API** acts as the central control layer, allowing multiple interfaces to interact with the same server instance.
+### Shared Runtime
+A runtime contains the official files downloaded from the Hytale dedicated server package, such as:
+- `Server/`
+- `Assets.zip`
+- `runtime.json`
+
+### Thin Instance
+An instance contains only the data unique to that server:
+- configs
+- logs
+- mods
+- universe/world data
+- backups
+- instance metadata
+
+This allows multiple instances to use the same runtime without duplicating large files.
 
 ---
 
-# Features
+## Features
 
-## World Management
+## Runtime Management
+- Import official Hytale runtime folders
+- Import official Hytale runtime zip files
+- Create versioned runtime entries
+- Open runtime folders directly from the UI
 
-- Create new worlds
-- Import / export worlds
-- Backup and restore saves
-- Clone world templates
-- Manage multiple worlds
+## Instance Management
+- Create thin instances from a selected runtime
+- Generate instance metadata automatically
+- Open instance folders directly from the UI
+- Regenerate instance launchers when needed
 
-## Server Management
+## Server Control
+- Start selected instances from inside HyWorld
+- Stop running instances from inside HyWorld
+- Manage the server as an embedded process instead of relying on an external console window
+- Send commands directly to the running instance
 
-- Start / stop servers
-- Monitor server status
-- Manage configuration
-- Handle logs and diagnostics
+## Embedded Console
+- View instance output inside the application
+- Use an in-app command box
+- Review app activity and launch activity
+- Ongoing cleanup for ANSI/control-code rendering
 
-## Mod Integration
+## Authentication Workflow
+- Support Hytale auth commands through the embedded console
+- Surface auth helper information in the UI
+- Support encrypted auth persistence once configured in the instance
 
-- Install mods
-- Enable / disable mods
-- Manage mod load order
-- Integrate with Cardinal mods
-
-## World Instances
-
-HyWorld supports **multi-world server architecture**, enabling:
-
-- dungeon instances
-- layered worlds
-- MMO-style server zones
-- temporary event maps
-
----
-
-# Hybrid Control Model
-
-HyWorld supports two main workflows:
-
-## Desktop Mode
-
-Ideal for:
-
-- mod developers
-- local testing
-- Windows server hosts
-
-Features:
-
-- native UI
-- fast local management
-- direct filesystem access
-
-## Web Mode
-
-Ideal for:
-
-- Linux servers
-- remote management
-- hosted servers
-
-Features:
-
-- browser-based interface
-- remote API control
-- server dashboards
-
-Both modes communicate with the **same backend API**.
+## Dashboard
+- Runtime count
+- Instance count
+- Running / stopped counts
+- Selected instance overview
+- PID / uptime / runtime version / auth state
+- Recent activity panel
+- Early live metrics support
 
 ---
 
-# Roadmap
+## Planned Features
 
-## Phase 1 — Core Foundation
+HyWorld is intended to grow into a more complete Hytale server admin tool.
 
-- Server launcher
-- World creation
-- Configuration management
-- Basic desktop interface
-
-## Phase 2 — Server Tooling
-
-- Log viewer
-- Player management
-- Performance monitoring
-- Backup automation
-
-## Phase 3 — World Tools
-
-- World preview
-- Biome visualization
-- Terrain analysis
-- Instance management
-
-## Phase 4 — Web Dashboard
-
-- Browser interface
-- Remote server control
-- Server monitoring panels
-
-## Phase 5 — Advanced Features
-
-- World map viewer
-- Player tracking
-- Mod marketplace
-- automation systems
+Planned areas include:
+- richer dashboard metrics
+- cleaner instance health/status views
+- config editing tools
+- mod management tools
+- better log browsing and search
+- improved help/setup flows
+- remote management support
+- a future web interface layered on top of the same core model
 
 ---
 
-# Screenshots
+## UI Goals
 
-*(Screenshots will be added as the UI develops.)*
+HyWorld is aiming for:
+- a **clean dark desktop UI**
+- a **modern server-control layout**
+- a workflow that feels closer to a real control panel than a collection of scripts
+- better quality-of-life for admins who run Hytale servers locally on Windows
 
-Planned interface previews:
-
-- World management dashboard
-- Server console panel
-- Terrain viewer
-- Mod management UI
-
----
-
-# Cardinal Ecosystem
-
-HyWorld integrates with the **Cardinal mod ecosystem**.
-
-Projects include:
-
-- **CardinalLib** — shared development framework
-- **CardinalMap** — map and world visualization tools
-- **CardinalSocial** — social and party systems
-
-These tools are designed to support **large-scale Hytale servers and modded gameplay systems**.
+The current UI is functional and improving, but visual polish is still in progress.
 
 ---
 
-# Technology
+## Workflow
 
-HyWorld is currently built using:
+Typical intended workflow:
 
+1. Download the official Hytale dedicated server package
+2. Import the runtime into HyWorld
+3. Create one or more thin instances
+4. Start and manage those instances from the embedded console
+5. Handle auth and persistence from inside the same workflow
+
+---
+
+## Technology
+
+HyWorld is currently built with:
 - **Java 25**
-- **JavaFX (desktop client)**
-- REST API backend
-- JSON configuration
-- Modular plugin architecture
-
-The project is designed to be extensible for future tooling and integrations.
+- **JavaFX**
+- **JSON-based runtime and instance metadata**
+- **embedded process management**
+- **desktop-first UI architecture**
 
 ---
 
-# Installation (Planned)
+## Status
 
-Future releases will provide:
+HyWorld is currently in **active development**.
 
-- Windows executable
-- Linux server packages
-- Docker container support
+The project has already proven:
+- runtime import
+- thin instance creation
+- embedded console startup
+- instance auth flow
+- stop / restart flow
+- dashboard foundation
 
----
-
-# Contributing
-
-Contributions will be welcomed once the core architecture stabilizes.
-
-Areas that will benefit from community involvement include:
-
-- UI development
-- server tooling
-- world visualization
-- mod integrations
+The current work is focused on refining the core experience so HyWorld can become a solid public release.
 
 ---
 
-# Author
+## Installation
+
+At the moment, HyWorld is intended to be run from source/build artifacts during development.
+
+Planned future distribution options may include:
+- packaged desktop releases
+- easier first-run setup
+- improved runtime import flow
+- optional remote management support
+
+---
+
+## Contributing
+
+Contributions are best saved until the core structure stabilizes a bit more.
+
+The areas that will matter most are:
+- UI/UX polish
+- dashboard improvements
+- metrics and monitoring
+- config/mod tooling
+- log handling
+- cross-platform runtime/admin workflows
+
+---
+
+## Author
 
 Created by **TriFactor**.
 
-Part of the **Cardinal project**, focused on expanding the possibilities of Hytale servers and modding.
-
 ---
 
-# License
+## License
 
-License will be determined as the project matures.
+License is still to be decided.
